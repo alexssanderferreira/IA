@@ -1,0 +1,110 @@
+🔧 1. Etapas de Desenvolvimento do Modelo
+1.1. Definição do Problema
+Identificar a curva de desgaste para prever o estágio de desgaste da ferramenta (amaciamento, desempenho ótimo ou desgaste excessivo).
+
+Determinar as variáveis de entrada: imagem da ferramenta, nº de peças produzidas e desgaste VB estimado.
+
+1.2. Coleta e Organização dos Dados
+Coleta de imagens em diferentes estágios de desgaste (com boa qualidade e iluminação controlada).
+
+Registro dos dados tabulares: quantidade de peças produzidas, desgaste VB (pode ser por sistema de visão).
+
+Rotulagem dos dados com base em medições reais (definição dos estágios de desgaste).
+
+Imagem	Nº de peças feitas  Desgaste da ponta em mm(hoje tenho um sistema que mede até uma casa depois do "." exemplo: 0.1 , 0.2, 0.3, 0.4 ...)
+img_20.png	20		0.1
+img_40.png	40		0.12
+img_60.png	60		0.14
+...	...	...
+img_320.png	320		0.40	
+img_340.png	340		0.60
+img_***.png  10% antes da quebra	
+
+1.3. Pré-processamento dos Dados
+Imagens: redimensionamento, normalização, aumento de dados (data augmentation) para melhorar a generalização.
+
+Dados tabulares: normalização ou padronização (ex: MinMaxScaler ou StandardScaler).
+
+Sincronização dos dados tabulares com suas imagens correspondentes.
+
+1.4. Desenvolvimento do Modelo
+Arquitetura híbrida com:
+
+CNN para extrair características visuais das imagens da ferramenta.
+
+MLP (Perceptron Multicamadas) para processar dados tabulares.
+
+Camada de fusão para combinar as saídas da CNN e MLP.
+
+Camada de classificação para prever o estágio de desgaste.
+
+1.5. Treinamento do Modelo
+Divisão em conjuntos de treino, validação e teste.
+
+Uso de função de perda apropriada (ex: cross-entropy).
+
+Monitoramento de métricas (acurácia, F1-score, matriz de confusão por estágio).
+
+Avaliação da capacidade de generalização com ferramentas não vistas.
+
+2.2. Interface para Operador
+Criação de uma interface desktop onde o operador:
+
+Faz o upload da imagem da ferramenta.
+
+Informa o nº de peças já produzidas.
+
+Insere o valor de desgaste VB estimado (ou coleta automática via sistema de visão).
+
+2.3. Pipeline de Inferência
+O sistema:
+
+Processa a imagem com a CNN.
+
+Processa os dados tabulares com a MLP.
+
+Combina as informações para prever o estágio atual.
+
+Estima a vida útil total e as peças restantes.
+
+Exibe resultado e recomendações (reafiar, trocar, continuar).
+
+🛠️ 3. Etapas de Uso 
+
+3.1. Previsão em Tempo Real
+O modelo avalia os dados e classifica a ferramenta:
+
+Amaciamento
+
+Desempenho ótimo
+
+Desgaste excessivo
+
+Retorna número estimado de peças restantes antes do desgaste excessivo.
+
+3.2. Tomada de Decisão
+O sistema recomenda:
+
+Continuar operando normalmente.
+
+Planejar reafiação em breve.
+
+Substituir a ferramenta imediatamente.
+
+Integração possível com sistemas MES/ERP para automação de ordens de manutenção.
+
+📈 Vantagens da Solução
+Aspecto	Benefício
+Generalização	Funciona com ferramentas não vistas previamente.
+Eficiência Operacional	Reduz a necessidade de paradas inesperadas e manutenção reativa.
+Previsão Proativa	Permite planejamento antecipado de reafiação e substituição.
+Escalabilidade	Pode ser aplicado em várias máquinas e tipos de ferramenta.
+
+📊 Exemplo Prático (Slide ou Quadro Resumo)
+Entrada	Valor
+Nº de Peças Produzidas	180
+Desgaste VB Estimado	0.30 mm
+Estágio da Ferramenta	Desempenho ótimo
+Vida Útil Total Estimada	250 peças
+Peças Restantes Estimadas	70
+Ação Sugerida	Planejar reafiação após 250 peças
